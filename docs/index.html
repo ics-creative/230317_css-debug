@@ -14,7 +14,6 @@
       font-family: sans-serif;
       font-size: 16px;
       color: #4d4f64;
-      counter-reset: number 0;
     }
     h1 {
       margin: 64px 0;
@@ -30,13 +29,12 @@
       line-height: 36px;
       font-weight: normal;
       letter-spacing: 0.064em;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    h3 {
+      font-weight: normal;
     }
     h2:before {
-      counter-increment: number 1;
-      content: counter(number) ". ";
-    }
-    h2:after {
       display: inline-block;
       content: "";
       width: 4px;
@@ -50,9 +48,127 @@
       padding: 48px 0px;
       border-top: 1px solid #d4d4dc;
     }
+    button {
+      width: 180px;
+      height: 60px;
+      letter-spacing: 0.06em;
+      font-size: 20px;
+      border: 2px solid #fcc418;
+      background-color: #fff;
+      color: #7e7e84;
+      cursor: pointer;
+    }
     .container {
       margin: 0 auto;
       max-width: 840px;
+    }
+    .sectionInner {
+      display: flex;
+      flex-direction: column;
+    }
+    .sectionInner > * {
+      margin-bottom: 16px;
+    }
+    .description {
+      margin-top: 16px;
+      background-color: rgba(252, 196, 24, 0.3);
+      padding: 32px;
+      border-radius: 8px;
+    }
+    .description > li {
+      margin-bottom: 8px;
+    }
+    .description > li:last-child {
+      margin-bottom: 0px;
+    }
+    .changeStyle {
+      display: inline-block;
+      padding: 16px 24px;
+      font-size: 18px;
+      background-color: #7e7e84;
+      color: #fff;
+      margin-tp: 12px;
+    }
+    .changeClassButton {
+      border-radius: 30px;
+      transition: background-color 0.3s;
+    }
+    .changeClassButton:hover {
+      background-color: #fcc418;
+    }
+    .changeClassButton.disabled {
+      border: 2px solid #7e7e84;
+      background-color: #7e7e84;
+      color: #fff;
+      opacity: 0.5;
+    }
+    .link {
+      height: 40px;
+      width: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: #7e7e84;
+      font-size: 18px;
+      position: relative;
+    }
+    .link::after {
+      content: "";
+      background-image: url(./images/arrow_up_fill.svg);
+      width: 24px;
+      height: 24px;
+      background-size: 24px;
+      background-repeat: no-repeat;
+    }
+    .link.up::after {
+      width: 32px;
+      height: 32px;
+      background-size: 32px;
+    }
+    .link.up::before {
+      content: "";
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: -2px;
+      right: -6px;
+      border: 2px solid #fcc418;
+      border-radius: 50%;
+    }
+    .link.right {
+      border-bottom: 2px solid #fcc418;
+    }
+    .link.right::after {
+      rotate: 45deg;
+    }
+    .shadowButton {
+      box-shadow: 8px 8px 0px 0px rgba(126, 126, 132, 0.5);
+    }
+    .flexbox, .grid {
+      width: 600px;
+      height: 200px;
+      border: 1px solid #7e7e84;
+      border-radius: 8px;
+      padding: 8px;
+      gap: 4px;
+    }
+    .flexbox {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .grid {
+      display: grid;
+      grid: repeat(2, 80px) / auto-flow 80px;
+    }
+    .flexbox_item, .grid_item {
+      border-radius: 8px;
+      background-color: #fcc418;
+      padding: 8px;
+    }
+    .flexbox_item {
+      width: 120px;
+      height: 60px;
     }
   </style>
 </head>
@@ -60,75 +176,82 @@
   <div class="container">
     <h1>CSSをデバッグする方法</h1>
     <section>
-      <h2>DOMのスタイルを確認 / 変更する</h2>
-      <div>
-        <p>この要素のスタイルを確認 / 変更する</p>
-        <p>要素を右クリックして「検証」を選択するとデベロッパーツールが開きます。<br/>スタイルを確認し、文字を※※にしてみましょう。</p>
-      </div>
-    </section>
-    <section>
-      <h2>上書きされたスタイルや無効なスタイルを確認する</h2>
-      <div>
-        <p>この要素のスタイルを確認する</p>
-        <p>※※は上書きされて無効になったスタイルです。</p>
-        <p>※※はプロパティ名が間違っているのでwarningアイコンが表示されます。</p>
-      </div>
-    </section>
-    <section>
-      <h2>プロパティをつけたり外したりする</h2>
-      <div>
-        <p>この要素のスタイルを確認する</p>
-        <p>※※の横のチェックボックスをつけ外しすることで、※※が変化します。</p>
+      <h2>スタイルを確認 / 変更する</h2>
+      <div class="sectionInner">
+        <span class="changeStyle">この要素のスタイルを確認 / 変更する</span>
+        <ul class="description">
+          <li>要素を右クリックして「検証」を選択するとデベロッパーツールが開きます。</li>
+          <li>全称セレクタ「*」のpaddingや、bodyタグのfont-size、colorは上書きされて無効になったスタイルです。</li>
+          <li>プロパティ名が間違っている「margin-tp」の横にはwarningアイコンが表示されています。</li>
+          <li>プロパティ横のチェックボックスをつけ外しすることで見た目が変化します。</li>
+          <li>paddingの横の三角をクリックするとショートハンドプロパティが展開されます。</li>
+        </ul>
       </div>
     </section>
     <section>
       <h2>クラスをつけたり外したりする</h2>
-      <div>
-        <button>この要素のスタイルを確認する</button>
-        <p>「:hover」のスタイルを確認しましょう。</p>
-        <p>「.is-disabled」クラスを付与するとボタンがdisalbedになります。</p>
-      </div>
-    </section>
-    <section>
-      <h2>ショートハンドプロパティを展開する</h2>
-      <div>
-        <div>この要素のスタイルを確認する</div>
-        <p>marginの横にある▼をクリックすると、ショートハンドプロパティが展開できます。</p>
+      <div class="sectionInner">
+        <button class="changeClassButton">BUTTON</button>
+        <ul class="description">
+          <li>「:hover」のスタイルを確認しましょう。</li>
+          <li>「.is-disabled」クラスを付与するとボタンのスタイルが変わります。</li>
+        </ul>
       </div>
     </section>
     <section>
       <h2>要素の大きさ、角度を調整する</h2>
-      <div>
-        <a href="#">Back to Top</a>
-        <a href="#">Go to Link</a>
-        <p>ボタン横の矢印アイコンの大きさや角度を変更してみましょう。</p>
+      <div class="sectionInner">
+        <a href="#" class="link up">Back to Top</a>
+        <a href="#" class="link right">Some Link</a>
+        <ul class="description">
+          <li>shiftキーを押しながらドラッグすると10pxずつ値を増減できます。</li>
+          <li>angle clockで角度を簡単に変更できます。</li>
+        </ul>
       </div>
     </section>
     <section>
       <h2>影を調整する</h2>
-      <div>
-        <span>この要素の影を調整する</span>
-        <p>シャドウエディターで影を調整してみましょう。</p>
-      </div>
-    </section>
-    <section>
-      <h2>文字の見た目を変更する</h2>
-      <div>
-        <p>画面右側の歯車のマークをクリックし、「試験運用版」（英語の場合は「Experiments」）から「Enable new Font Editor tool within the Styles Pane.」にチェックを入れます。</p>
-        <p>右側の「AA」ボタンでフォントエディターを表示し、文字を変更してみましょう。</p>
+      <div class="sectionInner">
+        <button class="shadowButton">SHADOW</button>
+        <ul class="description">
+          <li>シャドウエディターで影の方向やぼかしの強さなどを調整できます。</li>
+        </ul>
       </div>
     </section>
     <section>
       <h2>Flexbox、Gridのレイアウトを変更する</h2>
-      <div>
-        <span>Flexbox</span>
-        <div></div>
+      <div class="sectionInner">
+        <h3>Flexbox</h3>
+        <div class="flexbox">
+          <div class="flexbox_item">box1</div>
+          <div class="flexbox_item">box2</div>
+          <div class="flexbox_item">box3</div>
+          <div class="flexbox_item">box4</div>
+          <div class="flexbox_item">box5</div>
+          <div class="flexbox_item">box6</div>
+        </div>
+        <h3>Grid</h3>
+        <div class="grid">
+          <div class="grid_item">grid1</div>
+          <div class="grid_item">grid2</div>
+          <div class="grid_item">grid3</div>
+          <div class="grid_item">grid4</div>
+          <div class="grid_item">grid5</div>
+          <div class="grid_item">grid6</div>
+        </div>
+        <ul class="description">
+          <li>FrexboxやGridのレイアウトもクリックするだけで変更できます。</li>
+        </ul>
       </div>
-      <div>
-        <span>Grid</span>
-        <div></div>
+    </section>
+    <section>
+      <h2>文字の見た目を変更する</h2>
+      <div class="sectionInner">
+        <ul class="description">
+          <li>画面右側の歯車のマークをクリックし、「試験運用版」（英語の場合は「Experiments」）から「Enable new Font Editor tool within the Styles Pane.」にチェックを入れます。</li>
+          <li>右側の「AA」ボタンでフォントエディターを表示し文字を変更できます。</li>
+        </ul>
       </div>
-      <p>FrexboxやGridのレイアウトを変更してみましょう。</p>
     </section>
   </div>
 </body>
